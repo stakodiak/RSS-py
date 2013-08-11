@@ -2,7 +2,67 @@
 Grabs the good stuff from an RSS url. 
 
 Typically available keys are ```['guid', 'link', 'description', 'pubDate', 'title']```.
+```python
+# RSS.py - Uses XML library instead of re.
+import urllib2 as u2
+import xml.etree.ElementTree as ET
 
+def RSS (url):
+    # Returns a list of RSS-dict elements.
+    feed = list()
+    # Get items from RSS channel.
+    RSS_feed = u2.urlopen (url).read()
+    root = ET.fromstring(RSS_feed)
+    for i in root.findall ('./channel/item'):
+        elem = dict()
+        for j in i:
+            elem [j.tag] = j.text
+        feed.append (elem)
+    return feed
+```
+#### Hacker News
+```
+Python 2.7.5 (default, May 19 2013, 13:26:46) 
+[GCC 4.2.1 Compatible Apple Clang 4.1 ((tags/Apple/clang-421.11.66))] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from RSS import RSS
+>>> url = 'https://news.ycombinator.com/rss'
+>>> feed = RSS (url)
+>>> for i in feed:
+...     print i['title']
+... 
+Android RNG Weakness Renders Bitcoin Wallets Insecure
+Pixel Shaders: Proposal for an Interactive Introduction to Graphics Programming
+Julia and Python: a dynamic duo for scientific computing [video]
+Hacking Transcend WiFi SD Cards
+My 32-year-old co-founder has a brain tumor
+A Drinking Glass That Can Prevent Sexual Assault
+Flat Surface Shader
+Injectable oxygen keeps people alive without breathing
+The Man Who Would Overthrow Harvard
+Introduction to making HTML5/JavaScript games with Coquette.js
+The Massachusetts Software Tax
+Billionaire Revealed: The Biggest Company You’ve Never Heard Of
+apngasm - FOSS Animated PNG tools and APNG standardization
+Secure Share – decentralized encrypted social network
+mpv - a free and open-source general-purpose video player
+You broke the Internet. We're making ourselves a GNU one [video]
+I'm 13 and None of My Friends Use Facebook
+Unfair comparisons
+Tracking devices hidden in London's recycling bins are stalking your smartphone
+This Is What Happens When Publishers Invest In Long Stories
+Dmesg: An old, new, cool tool
+The Evolution of a Haskell Programmer
+ElementaryOs Luna released
+PEP 450: Adding A Statistics Module To The Standard Library
+Show HN: We made a low-budget ‘how it works’ video. What do you think?
+Carmack talks practical use of Haskell, Lisp in game prog at Quakecon keynote
+Wikipedia Co-Founder Refuses to Comply With China's Censorship
+Show HN: Do you read on the toilet? This web app is for you.
+CSS Absolute Centering
+Quantum Mechanics: Ph.D Thesis of Paul Dirac
+>>> 
+```
 #### Google News
 Search Google News for "florida man":
 ```
