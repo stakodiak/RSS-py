@@ -10,6 +10,6 @@ def RSS(url):
     for i in root.findall('./channel/item'):
         elem = dict()
         for j in i:
-            elem [j.tag] = j.text
+            elem[j.tag] = j.text
         feed.append(elem)
     return feed
